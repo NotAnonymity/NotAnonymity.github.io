@@ -3,6 +3,43 @@
 
 
     
+  <url>
+    <loc>http://1-mol.com/2018/09/06/%E5%9F%BA%E4%BA%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%9A%84%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</loc>
+    <lastmod>2018-09-06T05:52:04.425Z</lastmod>
+    <data>
+        <display>
+        <title>基于随机森林的特征选择</title>
+        <pubTime>2018-09-06T05:48:24.000Z</pubTime>
+        
+        <tag>特征工程</tag>
+         
+        <tag>机器学习</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://1-mol.com/2018/07/01/home/</loc>
+    <lastmod>2018-09-06T05:46:14.526Z</lastmod>
+    <data>
+        <display>
+        <title>home</title>
+        <pubTime>2018-07-01T10:11:58.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="cat" url="http://1-mol.com/categories/cat/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
     
     
@@ -15,41 +52,6 @@
         <display>
         <title>1-mol</title>
         <pubTime>2018-09-01T13:14:24.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://1-mol.com/2018/07/01/home/</loc>
-    <lastmod>2018-07-01T10:16:23.635Z</lastmod>
-    <data>
-        <display>
-        <title>home</title>
-        <pubTime>2018-07-01T10:11:58.000Z</pubTime>
-        
-        <tag>test</tag>
-         
-         
-           
-             
-              <breadCrumb title="cat" url="http://1-mol.com/categories/cat/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://1-mol.com/2018/07/01/hello-world/</loc>
-    <lastmod>2018-07-01T09:59:48.281Z</lastmod>
-    <data>
-        <display>
-        <title>Hello World</title>
-        <pubTime>2018-07-01T09:59:48.280Z</pubTime>
         
          
            
