@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        基于随机森林的特征选择｜NotAnonymity&#39;s blog
+        leetcode No.2 Add Two Numbers｜NotAnonymity&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://1-mol.com/2018/09/06/基于随机森林的特征选择/">
+    <link rel="canonical" href="http://1-mol.com/2018/09/06/No-2-Add-Two-Numbers/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,7 +145,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>基于随机森林的特征选择</h1>
+                    <h1>leetcode No.2 Add Two Numbers</h1>
                     
                     <span class="meta">
                          作者 NotAnonymity
@@ -155,11 +155,11 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#特征工程"
-                           title="特征工程">特征工程</a>
+                        <a class="tag" href="/tags/#leetcode"
+                           title="leetcode">leetcode</a>
                         
-                        <a class="tag" href="/tags/#机器学习"
-                           title="机器学习">机器学习</a>
+                        <a class="tag" href="/tags/#python"
+                           title="python">python</a>
                         
                     </div>
                 </div>
@@ -168,7 +168,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            基于随机森林的特征选择
+            leetcode No.2 Add Two Numbers
         </span>
     </div>
 </header>
@@ -179,25 +179,36 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>本文翻译自原文: <a href="http://blog.datadive.net/selecting-good-features-part-iii-random-forests/" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-iii-random-forests/</a></p>
-<h1 id="两类方法："><a href="#两类方法：" class="headerlink" title="两类方法："></a>两类方法：</h1><h2 id="1-按impurity（基尼系数或者信息熵这类）来排序特征（Mean-decrease-impurity）"><a href="#1-按impurity（基尼系数或者信息熵这类）来排序特征（Mean-decrease-impurity）" class="headerlink" title="1.按impurity（基尼系数或者信息熵这类）来排序特征（Mean decrease impurity）"></a>1.按impurity（基尼系数或者信息熵这类）来排序特征（Mean decrease impurity）</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment">#Load boston housing dataset as an example</span></span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line">names = boston[<span class="string">"feature_names"</span>]</span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">rf.fit(X, Y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted(zip(map(<span class="keyword">lambda</span> x: round(x, <span class="number">4</span>), rf.feature_importances_), names), </span><br><span class="line">             reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
-<p>不过这种排序存在这样两种偏差：分类越多的变量排名越高；当数据集中有两个或更多的相关的特征时，那么这些特征对目标的解释程度应该是差不多的，但是按照随机森林处理后的结果与之矛盾。原文有做一个实验来说明这种情况。<br>除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</p>
-<h2 id="2-mean-decrease-accuracy"><a href="#2-mean-decrease-accuracy" class="headerlink" title="2.mean decrease accuracy"></a>2.mean decrease accuracy</h2><p>通过排列组合特征看每次对准确度减少了多少，从而体现每个特征对模型准确度的重要性。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> ShuffleSplit</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"> </span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line"> </span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">scores = defaultdict(list)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#crossvalidate the scores on a number of different random splits of the data</span></span><br><span class="line"><span class="keyword">for</span> train_idx, test_idx <span class="keyword">in</span> ShuffleSplit(len(X), <span class="number">100</span>, <span class="number">.3</span>):</span><br><span class="line">    X_train, X_test = X[train_idx], X[test_idx]</span><br><span class="line">    Y_train, Y_test = Y[train_idx], Y[test_idx]</span><br><span class="line">    r = rf.fit(X_train, Y_train)</span><br><span class="line">    acc = r2_score(Y_test, rf.predict(X_test))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(X.shape[<span class="number">1</span>]):</span><br><span class="line">        X_t = X_test.copy()</span><br><span class="line">        np.random.shuffle(X_t[:, i])</span><br><span class="line">        shuff_acc = r2_score(Y_test, rf.predict(X_t))</span><br><span class="line">        scores[names[i]].append((acc-shuff_acc)/acc)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted([(round(np.mean(score), <span class="number">4</span>), feat) <span class="keyword">for</span></span><br><span class="line">              feat, score <span class="keyword">in</span> scores.items()], reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><h4 id="随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1-对于相关的特征，强特征得到的分很低；2-所分种类越多的特征得分越高"><a href="#随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1-对于相关的特征，强特征得到的分很低；2-所分种类越多的特征得分越高" class="headerlink" title="随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1.对于相关的特征，强特征得到的分很低；2. 所分种类越多的特征得分越高"></a>随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1.对于相关的特征，强特征得到的分很低；2. 所分种类越多的特征得分越高</h4>
+                <ul>
+<li>第一种写法：先将listnode组成的链表转化为字符串，再由字符串转化为int再相加，再转化为子串，再转化为列表输出。容易些</li>
+<li>第二种写法：遍历链表<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">第一种：<span class="number">92</span>ms</span><br><span class="line">----</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = <span class="keyword">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, lst)</span>:</span></span><br><span class="line">        cur = self</span><br><span class="line">        <span class="keyword">for</span> i,v <span class="keyword">in</span> enumerate(lst):</span><br><span class="line">            cur.val = v</span><br><span class="line">            <span class="keyword">if</span> i != len(lst) - <span class="number">1</span>:</span><br><span class="line">                tmp = ListNode(<span class="number">0</span>)</span><br><span class="line">                cur.next = tmp</span><br><span class="line">                cur = tmp</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">printf</span><span class="params">(self)</span>:</span></span><br><span class="line">        head = self</span><br><span class="line">        <span class="keyword">while</span> head:</span><br><span class="line">            print(head.val)</span><br><span class="line">            head = head.next</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1, l2)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type l1: ListNode</span></span><br><span class="line"><span class="string">        :type l2: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        list1 = []</span><br><span class="line">        list2 = []</span><br><span class="line">        <span class="keyword">while</span> l1:</span><br><span class="line">            list1.insert(<span class="number">0</span>,str(l1.val))</span><br><span class="line">            l1 = l1.next</span><br><span class="line">        <span class="keyword">while</span> l2:</span><br><span class="line">            list2.insert(<span class="number">0</span>,str(l2.val))</span><br><span class="line">            l2 = l2.next</span><br><span class="line">        sum1 = int(<span class="string">''</span>.join(list1))</span><br><span class="line">        sum2 = int(<span class="string">''</span>.join(list2))</span><br><span class="line">        sum = sum1 + sum2</span><br><span class="line">        list3 = list(reversed(list(str(sum))))</span><br><span class="line">        list3 = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> list3]</span><br><span class="line">        <span class="keyword">return</span> list3</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    l1 = ListNode(<span class="number">0</span>)</span><br><span class="line">    l1.create([<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line">    l1.printf()</span><br><span class="line">    l2 = ListNode(<span class="number">0</span>)</span><br><span class="line">    l2.create([<span class="number">3</span>,<span class="number">6</span>,<span class="number">3</span>])</span><br><span class="line">    l2.printf()</span><br><span class="line">    sol= Solution()</span><br><span class="line">    ans = sol.addTwoNumbers(l1,l2)</span><br><span class="line">    print(ans)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="第二种写法：100ms"><a href="#第二种写法：100ms" class="headerlink" title="第二种写法：100ms"></a>第二种写法：100ms</h2><p>def addTwoNumbers(self, l1, l2):<br>        carry = 0<br>        cur = l3 = ListNode(0)<br>        while l1 or l2:<br>            sum = carry<br>            if l1:<br>                sum = sum + l1.val<br>                l1 = l1.next<br>            if l2:<br>                sum = sum + l2.val<br>                l2 = l2.next<br>            if sum &gt;= 10:<br>                sum = sum - 10<br>                carry = 1<br>            else:<br>                carry = 0</p>
+<pre><code>    cur.val = sum
+    if l1 or l2:
+        tmp = ListNode(0)
+        cur.next = tmp
+        cur = tmp
+if carry == 1:
+    tmp = ListNode(1)
+    cur.next = tmp
+return l3
+</code></pre>
                 <hr>
                 
 
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/09/06/No-2-Add-Two-Numbers/" data-toggle="tooltip" data-placement="top"
-                           title="leetcode No.2 Add Two Numbers">&larr; Previous Post</a>
+                        <a href="/2018/09/06/No-18-4sum/" data-toggle="tooltip" data-placement="top"
+                           title="leetcode No.18 4sum">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2018/09/01/1-mol/" data-toggle="tooltip" data-placement="top"
-                           title="1-mol">Next Post &rarr;</a>
+                        <a href="/2018/09/06/基于随机森林的特征选择/" data-toggle="tooltip" data-placement="top"
+                           title="基于随机森林的特征选择">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -232,7 +243,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#两类方法："><span class="toc-text">两类方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-按impurity（基尼系数或者信息熵这类）来排序特征（Mean-decrease-impurity）"><span class="toc-text">1.按impurity（基尼系数或者信息熵这类）来排序特征（Mean decrease impurity）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-mean-decrease-accuracy"><span class="toc-text">2.mean decrease accuracy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结："><span class="toc-text">总结：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1-对于相关的特征，强特征得到的分很低；2-所分种类越多的特征得分越高"><span class="toc-text">随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1.对于相关的特征，强特征得到的分很低；2. 所分种类越多的特征得分越高</span></a></li></ol></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第二种写法：100ms"><span class="toc-text">第二种写法：100ms</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -254,11 +265,11 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#特征工程"
-                           title="特征工程">特征工程</a>
+                        <a class="tag" href="/tags/#leetcode"
+                           title="leetcode">leetcode</a>
                         
-                        <a class="tag" href="/tags/#机器学习"
-                           title="机器学习">机器学习</a>
+                        <a class="tag" href="/tags/#python"
+                           title="python">python</a>
                         
                     </div>
                 </section>
