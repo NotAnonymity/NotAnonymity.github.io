@@ -80,39 +80,7 @@
                         
 							
                         <li>
-                            <a href="/CodeForces/">CodeForces</a>
-                        </li>
-							
-						
-                    
-                        
-							
-                        <li>
-                            <a href="/leetcode—python学习之路/">leetcode—python学习之路</a>
-                        </li>
-							
-						
-                    
-                        
-							
-                        <li>
-                            <a href="/算法学习/">算法学习</a>
-                        </li>
-							
-						
-                    
-                        
-							
-                        <li>
-                            <a href="/机器学习/">机器学习</a>
-                        </li>
-							
-						
-                    
-                        
-							
-                        <li>
-                            <a href="/特征工程/">特征工程</a>
+                            <a href="/Tags/">Tags</a>
                         </li>
 							
 						
@@ -216,8 +184,8 @@
 <li>按impurity（基尼系数或者信息熵这类）来排序特征（Mean decrease impurity）<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment">#Load boston housing dataset as an example</span></span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line">names = boston[<span class="string">"feature_names"</span>]</span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">rf.fit(X, Y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted(zip(map(<span class="keyword">lambda</span> x: round(x, <span class="number">4</span>), rf.feature_importances_), names), </span><br><span class="line">             reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>不过这种排序存在这样的偏差：分类越多的变量排名越高；<br>当数据集中有两个或更多的相关的特征时，那么这些特征对目标的解释程度应该是差不多的，但是按照随机森林处理后的结果与之矛盾。原文有做一个实验来说明（<a href="http://blog.datadive.net/selecting-good-features-part-iii-random-forests/）" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-iii-random-forests/）</a></p>
-<h4 id="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><a href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征" class="headerlink" title="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"></a>除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</h4><ul>
+<p>不过这种排序存在这样的偏差：分类越多的变量排名越高；<br>当数据集中有两个或更多的相关的特征时，那么这些特征对目标的解释程度应该是差不多的，但是按照随机森林处理后的结果与之矛盾。原文有做一个实验来说明</p>
+<h3 id="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><a href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征" class="headerlink" title="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"></a>除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</h3><ul>
 <li>mean decrease accuracy<br>通过排列组合特征看每次对准确度减少了多少，从而体现每个特征对模型准确度的重要性。<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> ShuffleSplit</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"> </span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line"> </span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">scores = defaultdict(list)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#crossvalidate the scores on a number of different random splits of the data</span></span><br><span class="line"><span class="keyword">for</span> train_idx, test_idx <span class="keyword">in</span> ShuffleSplit(len(X), <span class="number">100</span>, <span class="number">.3</span>):</span><br><span class="line">    X_train, X_test = X[train_idx], X[test_idx]</span><br><span class="line">    Y_train, Y_test = Y[train_idx], Y[test_idx]</span><br><span class="line">    r = rf.fit(X_train, Y_train)</span><br><span class="line">    acc = r2_score(Y_test, rf.predict(X_test))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(X.shape[<span class="number">1</span>]):</span><br><span class="line">        X_t = X_test.copy()</span><br><span class="line">        np.random.shuffle(X_t[:, i])</span><br><span class="line">        shuff_acc = r2_score(Y_test, rf.predict(X_t))</span><br><span class="line">        scores[names[i]].append((acc-shuff_acc)/acc)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted([(round(np.mean(score), <span class="number">4</span>), feat) <span class="keyword">for</span></span><br><span class="line">              feat, score <span class="keyword">in</span> scores.items()], reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -266,7 +234,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#两类方法："><span class="toc-text">两类方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><span class="toc-text">除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#两类方法："><span class="toc-text">两类方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><span class="toc-text">除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</span></a></li></ol>
                 </div>
             </div>
         </div>

@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://1-mol.com/Tags/index.html</loc>
+    
+    <lastmod>2018-09-06T05:57:54.543Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://1-mol.com/2018/09/06/%E5%9F%BA%E4%BA%8E%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%9A%84%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</loc>
     
-    <lastmod>2018-09-06T05:52:04.425Z</lastmod>
+    <lastmod>2018-09-06T05:55:14.261Z</lastmod>
     
   </url>
   
@@ -12,41 +19,6 @@
     <loc>http://1-mol.com/2018/07/01/home/</loc>
     
     <lastmod>2018-09-06T05:46:14.526Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1-mol.com/CodeForces/index.html</loc>
-    
-    <lastmod>2018-09-06T04:37:44.626Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1-mol.com/leetcode%E2%80%94python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/index.html</loc>
-    
-    <lastmod>2018-09-06T04:37:27.977Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1-mol.com/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/index.html</loc>
-    
-    <lastmod>2018-09-06T04:36:59.167Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1-mol.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.html</loc>
-    
-    <lastmod>2018-09-06T04:36:45.058Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://1-mol.com/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/index.html</loc>
-    
-    <lastmod>2018-09-06T04:35:31.802Z</lastmod>
     
   </url>
   
