@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="hhhh">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="NotAnonymity" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        特征选择｜NotAnonymity&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://1-mol.com/2018/09/07/特征选择/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://www.1-mol.com/source/images/1.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    NotAnonymity
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://www.1-mol.com/source/images/1.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://www.1-mol.com/source/images/1.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>特征选择</h1>
+                    
+                    <span class="meta">
+                         作者 NotAnonymity
+                        <span>
+                          日期 2018-09-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#特征工程"
+                           title="特征工程">特征工程</a>
+                        
+                        <a class="tag" href="/tags/#机器学习"
+                           title="机器学习">机器学习</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            特征选择
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>特征选择的目标：<br>1.减少特征的数目来避免过拟合并提高模型的泛化能力<br>2.加深对特征与目标变量间的关系的理解<br>下面得到例子中，主要是对回归数据集，但是大多数的讨论和例子同样适用于分类数据集及方法。<br>在做回归前，为了减少特征，对于近似线性相关的模型，我们偏向用皮尔森相关系数，但还有MIC,distance correlation，添加高次项等方法。对于非线性的模型，我们偏向用基于树的方法（决策树，随机森林），基于树的方法用起来简单，也不用调参，但对这类方法做回归时要注意避免过拟合，可以通过剪枝和交叉检验（交叉检验？）来避免过拟合。<br>还有一些机器学习模型中就有对特征的固定排名，像一些回归模型，SVM,决策树，随机森林等。<br>但是像单纯的线性回归模型，对于特征的选择又是有误差的，下面将通过实验介绍。<br>另外还有PCA等方法。</p>
+<h2 id="单变量特征选择"><a href="#单变量特征选择" class="headerlink" title="单变量特征选择"></a>单变量特征选择</h2><p>分别检查每个特征和目标变量间的关系。有以下几种选择</p>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient" target="_blank" rel="noopener">皮尔森相关系数</a><br>它描述了两个变量间的线性关系。<br>例子：比较一个参数在线性叠加不同程度的噪音下与其自身的线性相关性。<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> pearsonr</span><br><span class="line">np.random.seed(<span class="number">0</span>)</span><br><span class="line">size = <span class="number">300</span></span><br><span class="line">x = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, size)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Lower noise"</span>, pearsonr(x, x + np.random.normal(<span class="number">0</span>, <span class="number">1</span>, size))</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Higher noise"</span>, pearsonr(x, x + np.random.normal(<span class="number">0</span>, <span class="number">10</span>, size))</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>结果：<br>Lower noise (0.71824836862138386, 7.3240173129992273e-49)<br>Higher noise (0.057964292079338148, 0.31700993885324746)<br>pearsonr返回的第一个值是皮尔森相关系数，第二个值是p值。p值越小，表示相关系数越显著，一般p值在500个样本以上时有较高的可靠性。<br>结果表明噪音越低的参数与其自身的线性相关度越高。但不能检出非线性关系。最好还是先画图。<br>还有个缺点是不能推断出特征和特征间是否独立。<br>f_regression和pipeline</p>
+<ol start="2">
+<li>maximal information coefficient（MIC）最大互信息系数<br>互信息系数是可以度量变量相互关系（线性与非线性）的统计量<br>定义为：<br>I(X,Y)=∑y∈Y∑x∈Xp(x,y)log(p(x,y)p(x)p(y))</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> minepy <span class="keyword">import</span> MINE</span><br><span class="line">m = MINE()</span><br><span class="line">x = np.random.uniform(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">10000</span>)</span><br><span class="line">m.compute_score(x, x**<span class="number">2</span>)</span><br><span class="line"><span class="keyword">print</span> m.mic()</span><br></pre></td></tr></table></figure>
+<p>还需检验其统计检验力（怎么检验?）</p>
+<ol start="3">
+<li>distance correlation 距离相关性<br>距离相关性能清楚地解决皮尔森相关系数的缺点。<br>距离相关性能反应x与x^2两个参数是不独立的<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#R-code</span></span><br><span class="line">&gt; x = runif (<span class="number">1000</span>, <span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">&gt; dcor(x, x**<span class="number">2</span>)</span><br><span class="line">[<span class="number">1</span>] <span class="number">0.4943864</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>但当参数和目标参数的关系近于线性的时候，我们更偏向于使用皮尔森相关系数，其一是因为算起来快，其二是它还能带来别的信息，即是正相关还是负相关，除了pearson correlation 以为的统计量如MIC, distance correlation 的范围都在[0,1]</p>
+<h2 id="基于随机森林"><a href="#基于随机森林" class="headerlink" title="基于随机森林"></a>基于随机森林</h2><ul>
+<li>随机森林<br>原文：<a href="http://blog.datadive.net/selecting-good-features-part-iii-random-forests/" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-iii-random-forests/</a></li>
+<li>按impurity（基尼系数或者信息熵这类）来排序特征（Mean decrease impurity）<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment">#Load boston housing dataset as an example</span></span><br><span class="line">boston = load_boston()</span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line">names = boston[<span class="string">"feature_names"</span>]</span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">rf.fit(X, Y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted(zip(map(<span class="keyword">lambda</span> x: round(x, <span class="number">4</span>), rf.feature_importances_), names), </span><br><span class="line">             reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>不过这种排序存在这样的偏差：分类越多的变量排名越高；<br>当数据集中有两个或更多的相关的特征时，那么这些特征对目标的解释程度应该是差不多的，但是按照随机森林处理后的结果与之矛盾。原文有做一个实验来说明（<a href="http://blog.datadive.net/selecting-good-features-part-iii-random-forests/）" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-iii-random-forests/）</a></p>
+<h4 id="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><a href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征" class="headerlink" title="除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"></a>除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</h4><ul>
+<li>mean decrease accuracy<br>通过排列组合特征看每次对准确度减少了多少，从而体现每个特征对模型准确度的重要性。<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> ShuffleSplit</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"> </span><br><span class="line">X = boston[<span class="string">"data"</span>]</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line"> </span><br><span class="line">rf = RandomForestRegressor()</span><br><span class="line">scores = defaultdict(list)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#crossvalidate the scores on a number of different random splits of the data</span></span><br><span class="line"><span class="keyword">for</span> train_idx, test_idx <span class="keyword">in</span> ShuffleSplit(len(X), <span class="number">100</span>, <span class="number">.3</span>):</span><br><span class="line">    X_train, X_test = X[train_idx], X[test_idx]</span><br><span class="line">    Y_train, Y_test = Y[train_idx], Y[test_idx]</span><br><span class="line">    r = rf.fit(X_train, Y_train)</span><br><span class="line">    acc = r2_score(Y_test, rf.predict(X_test))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(X.shape[<span class="number">1</span>]):</span><br><span class="line">        X_t = X_test.copy()</span><br><span class="line">        np.random.shuffle(X_t[:, i])</span><br><span class="line">        shuff_acc = r2_score(Y_test, rf.predict(X_t))</span><br><span class="line">        scores[names[i]].append((acc-shuff_acc)/acc)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Features sorted by their score:"</span></span><br><span class="line"><span class="keyword">print</span> sorted([(round(np.mean(score), <span class="number">4</span>), feat) <span class="keyword">for</span></span><br><span class="line">              feat, score <span class="keyword">in</span> scores.items()], reverse=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>总结：随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1.对于相关的特征，强特征得到的分很低；2. 所分种类越多的特征得分越高</p>
+<h2 id="基于线性回归模型的特征选择"><a href="#基于线性回归模型的特征选择" class="headerlink" title="基于线性回归模型的特征选择"></a>基于线性回归模型的特征选择</h2><p><a href="http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/</a><br>做了两个实验，说明如果两个特征的相关性搞高，就会导致它们的系数判断误差大。<br>岭回归和lasso回归通过引入不同范式表示的罚项来避免过拟合并提高泛化能力。<br>逐步回归的基本思想：将变量一个个引入，每引入一个变量时，要对已选入的变量进行逐个检验。当原引入的变量由于后面变量的引入而变得不再显著时，将其剔除。这个过程反复进行，直到既无显著的变量选入方程，也无不显著自变量从回归方程中剔除为止。</p>
+<ol>
+<li><p>lasso regression</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line">  </span><br><span class="line">boston = load_boston()</span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X = scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line">names = boston[<span class="string">"feature_names"</span>]</span><br><span class="line">  </span><br><span class="line">lasso = Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X, Y)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">print</span> <span class="string">"Lasso model: "</span>, pretty_print_linear(lasso.coef_, names, sort = <span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ridge regression</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Ridge</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score</span><br><span class="line">size = <span class="number">100</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#We run the method 10 times with different random seeds</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Random seed %s"</span> % i</span><br><span class="line">    np.random.seed(seed=i)</span><br><span class="line">    X_seed = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, size)</span><br><span class="line">    X1 = X_seed + np.random.normal(<span class="number">0</span>, <span class="number">.1</span>, size)</span><br><span class="line">    X2 = X_seed + np.random.normal(<span class="number">0</span>, <span class="number">.1</span>, size)</span><br><span class="line">    X3 = X_seed + np.random.normal(<span class="number">0</span>, <span class="number">.1</span>, size)</span><br><span class="line">    Y = X1 + X2 + X3 + np.random.normal(<span class="number">0</span>, <span class="number">1</span>, size)</span><br><span class="line">    X = np.array([X1, X2, X3]).T</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    lr = LinearRegression()</span><br><span class="line">    lr.fit(X,Y)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Linear model:"</span>, pretty_print_linear(lr.coef_)</span><br><span class="line"> </span><br><span class="line">    ridge = Ridge(alpha=<span class="number">10</span>)</span><br><span class="line">    ridge.fit(X,Y)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Ridge model:"</span>, pretty_print_linear(ridge.coef_)</span><br><span class="line">    <span class="keyword">print</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>岭回归的罚项是基于L2范式的，对同一模型的随机点多次回归，回归的系数相对稳定，且泛化能力强。<br>岭回归可以用于插值。</p>
+<p>参考：<br><a href="http://blog.datadive.net/" target="_blank" rel="noopener">http://blog.datadive.net/</a><br><a href="https://www.jianshu.com/p/744032f2f722" target="_blank" rel="noopener">https://www.jianshu.com/p/744032f2f722</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/09/06/No-18-4sum/" data-toggle="tooltip" data-placement="top"
+                           title="leetcode No.18 4sum">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8zOTUzNi8xNjA2Mw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单变量特征选择"><span class="toc-text">单变量特征选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于随机森林"><span class="toc-text">基于随机森林</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征"><span class="toc-text">除了基于随机森林的特征选择外，大多数基于模型的特征选择方法都存在对相关变量的排名的解释有问题的情况。所以在训练模型的时候不一定会因为我们丢弃了某个特征而导致模型效果大幅下降，因为还有其他的向边特征</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于线性回归模型的特征选择"><span class="toc-text">基于线性回归模型的特征选择</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#特征工程"
+                           title="特征工程">特征工程</a>
+                        
+                        <a class="tag" href="/tags/#机器学习"
+                           title="机器学习">机器学习</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/wuxuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/leon-leon-63">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/wuxuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/NotAnonymity">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; NotAnonymity 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://1-mol.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://www.1-mol.com/source/images/1.jpg">
+</body>
+
+</html>
