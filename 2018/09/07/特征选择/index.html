@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        特征选择｜NotAnonymity&#39;s blog
+        NotAnonymity&#39;s blog
         
     </title>
 
@@ -145,7 +145,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>特征选择</h1>
+                    <h1></h1>
                     
                     <span class="meta">
                          作者 NotAnonymity
@@ -155,12 +155,6 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#特征工程"
-                           title="特征工程">特征工程</a>
-                        
-                        <a class="tag" href="/tags/#机器学习"
-                           title="机器学习">机器学习</a>
-                        
                     </div>
                 </div>
             </div>
@@ -168,7 +162,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            特征选择
+            
         </span>
     </div>
 </header>
@@ -207,7 +201,7 @@
 </li>
 </ul>
 <p>总结：随机森林来做特征选择的优点：只用做很少的特征工程，参数调整。但缺点有两点：1.对于相关的特征，强特征得到的分很低；2. 所分种类越多的特征得分越高</p>
-<h2 id="基于线性回归模型的特征选择"><a href="#基于线性回归模型的特征选择" class="headerlink" title="基于线性回归模型的特征选择"></a>基于线性回归模型的特征选择</h2><p><a href="http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/</a><br>做了两个实验，说明如果两个特征的相关性搞高，就会导致它们的系数判断误差大。<br>岭回归和lasso回归通过引入不同范式表示的罚项来避免过拟合并提高泛化能力。<br>逐步回归的基本思想：将变量一个个引入，每引入一个变量时，要对已选入的变量进行逐个检验。当原引入的变量由于后面变量的引入而变得不再显著时，将其剔除。这个过程反复进行，直到既无显著的变量选入方程，也无不显著自变量从回归方程中剔除为止。</p>
+<h2 id="基于线性回归模型的特征选择"><a href="#基于线性回归模型的特征选择" class="headerlink" title="基于线性回归模型的特征选择"></a>基于线性回归模型的特征选择</h2><p><a href="http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/" target="_blank" rel="noopener">http://blog.datadive.net/selecting-good-features-part-ii-linear-models-and-regularization/</a><br>做了两个实验，说明如果两个特征的相关性较高，就会导致它们的系数判断误差大。（就是多重共线性）<br>岭回归和lasso回归通过引入不同范式表示的罚项来避免过拟合并提高泛化能力。<br>逐步回归的基本思想：将变量一个个引入，每引入一个变量时，要对已选入的变量进行逐个检验。当原引入的变量由于后面变量的引入而变得不再显著时，将其剔除。这个过程反复进行，直到既无显著的变量选入方程，也无不显著自变量从回归方程中剔除为止。</p>
 <ol>
 <li><p>lasso regression</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_boston</span><br><span class="line">  </span><br><span class="line">boston = load_boston()</span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X = scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y = boston[<span class="string">"target"</span>]</span><br><span class="line">names = boston[<span class="string">"feature_names"</span>]</span><br><span class="line">  </span><br><span class="line">lasso = Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X, Y)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">print</span> <span class="string">"Lasso model: "</span>, pretty_print_linear(lasso.coef_, names, sort = <span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
@@ -283,12 +277,6 @@
                         <a href="/tags/">FEATURED TAGS</a>
                     </h5>
                     <div class="tags">
-                        
-                        <a class="tag" href="/tags/#特征工程"
-                           title="特征工程">特征工程</a>
-                        
-                        <a class="tag" href="/tags/#机器学习"
-                           title="机器学习">机器学习</a>
                         
                     </div>
                 </section>
