@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        leetcode No.18 4sum｜NotAnonymity&#39;s blog
+        k-svd实现人脸缺失像素补全｜NotAnonymity&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://1-mol.com/2018/09/06/No-18-4sum/">
+    <link rel="canonical" href="http://1-mol.com/2018/12/18/k-svd实现人脸缺失像素补全/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -145,21 +145,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>leetcode No.18 4sum</h1>
+                    <h1>k-svd实现人脸缺失像素补全</h1>
                     
                     <span class="meta">
                          作者 NotAnonymity
                         <span>
-                          日期 2018-09-06
+                          日期 2018-12-18
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#leetcode"
-                           title="leetcode">leetcode</a>
-                        
-                        <a class="tag" href="/tags/#python"
-                           title="python">python</a>
+                        <a class="tag" href="/tags/#表达学习"
+                           title="表达学习">表达学习</a>
                         
                     </div>
                 </div>
@@ -168,7 +165,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            leetcode No.18 4sum
+            k-svd实现人脸缺失像素补全
         </span>
     </div>
 </header>
@@ -179,26 +176,72 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <ul>
-<li>问题：找一个数列nums中的四个数a,b,c,d，使得四个数的和等于target。在一种方案中，a,b,c,d在nums中的索引不能相同。最后输出不同方案下[a,b,c,d]所组成的集合（对，集合，所以如果不同方案的[a,b,c,d]排序后相同，也要被筛掉）</li>
-<li>分析：枚举前两个数，找满足条件的c，d。最糟糕也就O（n^3）了<br>找满足条件的c，d的时候要注意细节处理。</li>
-<li>细节：找到了一个方案以后，怎么保证之后不出现排序后相同的方案？有两处，一处是a,b的双重循环，除了第一个数以外，每次都是跑到一个数值的最后那个数；另一处是c，d的移动，若当前a0，b0，c0，d0是可行方案，就需要移动c，d直到一个ci $\neq$ c0，一个di $\neq$d0<h1 id="640-ms"><a href="#640-ms" class="headerlink" title="640 ms"></a>640 ms</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fourSum</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :type target: int</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        rtn = []</span><br><span class="line">        nums.sort()</span><br><span class="line">        <span class="keyword">if</span> len(nums) &gt;= <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">                <span class="keyword">if</span> i <span class="keyword">and</span> nums[i] == nums[i - <span class="number">1</span>]:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, len(nums) - <span class="number">2</span>):</span><br><span class="line">                    <span class="keyword">if</span> j &gt; i + <span class="number">1</span> <span class="keyword">and</span> nums[j] == nums[j - <span class="number">1</span>]:</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    a = j + <span class="number">1</span></span><br><span class="line">                    b = len(nums) - <span class="number">1</span></span><br><span class="line">                    <span class="keyword">while</span> a &lt; b :</span><br><span class="line">                        <span class="keyword">while</span> a &lt; b <span class="keyword">and</span> nums[i] + nums[j] + nums[a] + nums[b] &gt; target:</span><br><span class="line">                            b = b - <span class="number">1</span></span><br><span class="line">                        <span class="keyword">while</span> a &lt; b <span class="keyword">and</span> nums[i] + nums[j] + nums[a] + nums[b] &lt; target:</span><br><span class="line">                            a = a + <span class="number">1</span></span><br><span class="line">                        <span class="keyword">if</span> a &lt; b <span class="keyword">and</span> nums[i] + nums[j] + nums[a] + nums[b] == target:</span><br><span class="line">                            <span class="comment"># print(i,j,a,b)</span></span><br><span class="line">                            rtn.append([nums[i], nums[j], nums[a], nums[b]])</span><br><span class="line">                            a = a + <span class="number">1</span></span><br><span class="line">                            b = b - <span class="number">1</span></span><br><span class="line">                            <span class="keyword">while</span> a &lt; len(nums) <span class="keyword">and</span> nums[a] == nums[a - <span class="number">1</span>]:</span><br><span class="line">                                a = a + <span class="number">1</span></span><br><span class="line">                            <span class="keyword">while</span> b <span class="keyword">and</span> nums[b + <span class="number">1</span>] == nums[b]:</span><br><span class="line">                                b = b - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rtn</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    sol = Solution()</span><br><span class="line">    ans = sol.fourSum([<span class="number">-1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">-5</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">4</span>],<span class="number">3</span>)</span><br><span class="line">    print(ans)</span><br></pre></td></tr></table></figure></li>
-</ul>
+                <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><pre><code>使用K-SVD算法实现人脸图像的像素缺失填补实验，实验包括：
 
+（1）使用YaleB数据集中的部分人脸图像，根据ksvd算法得到字典；
+
+（2）对未参与字典训练的人脸图像进行50%，70%像素点缺失处理；
+
+（3）使用字典填补(2)得到的像素缺失图像。
+
+（4）分别进行不同次数的迭代并比较结果。
+</code></pre><h1 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h1><h2 id="OMP"><a href="#OMP" class="headerlink" title="OMP"></a>OMP</h2><pre><code>以贪婪迭代的方法选择D的列，使得在每次迭代的过程中所选择的列与当前冗余向量最大程度的相关，从原始信号向量中减去相关部分并反复迭代，只到迭代次数达到稀疏度K，停止迭代[1]。伪代码如下[2]：
+![](/images/omp.jpg)
+进一步为了提高速度，可以用batch-OMP[3]实现OMP
+</code></pre><h2 id="K-SVD"><a href="#K-SVD" class="headerlink" title="K-SVD"></a>K-SVD</h2><pre><code>K-SVD算法的思想是不断更新字典，使得字典，主要包括：①初始化字典；②稀疏编码（OMP或BP算法）；③更新字典（通过SVD逐列更新）。伪代码如下[4]：
+![](/images/ksvd.jpg)
+</code></pre><p><strong>K-SVD实现注意:</strong><br>    信号集Y和字典D在计算前要归一化。字典的初始方法很多，此处选用了随机初始化。归一化采用了L2-norm。</p>
+<h2 id="ImageReconstruct："><a href="#ImageReconstruct：" class="headerlink" title="ImageReconstruct："></a>ImageReconstruct：</h2><p><strong>实现逻辑:</strong><br>用训练得到的D以及受损的信号集Y_loss，通过OMP解得表达X，再用D·X重新表示信号，即实现了受损图像的恢复。</p>
+<p><strong>实现注意:</strong></p>
+<p>1.在投入OMP前要归一化，保留信息</p>
+<p>   2.图像在转成uint8前先取绝对值，去过界值</p>
+<h1 id="实验数据处理"><a href="#实验数据处理" class="headerlink" title="实验数据处理"></a>实验数据处理</h1><pre><code>数据集为来自YaleB的格式为pgm的分辨率为192 * 168的38张完整人脸图像。
+将数据集分为训练集和测试集，21张为训练集，17张为测试集。设置四次实验。第一，二次实验，给测试集图像加50%的椒盐噪声，K-SVD迭代次数分别设置为5，100。第三，四次实验，给测试集图像加70%的椒盐噪声，K-SVD迭代次数分别设置为5，100。
+</code></pre><h2 id="1-对训练集的预处理"><a href="#1-对训练集的预处理" class="headerlink" title="1.对训练集的预处理"></a>1.对训练集的预处理</h2><pre><code> 先将训练集中的每一张图像分为504个8*8的分片，共得到21*504个分片，从中抽取小于等于504个分片，将分片以64*1的列向量的形式相并，得到训练信号。
+ 初始字典采取随机生成的形式。
+ 对上述生成的训练信号及字典用L2范式归一化。
+通过K-SVD训练得到字典D。
+</code></pre><h2 id="2-对测试集的预处理"><a href="#2-对测试集的预处理" class="headerlink" title="2.对测试集的预处理"></a>2.对测试集的预处理</h2><pre><code>用50%/70%/90%的椒盐噪声生成缺失图像
+</code></pre><h2 id="重构缺失图像"><a href="#重构缺失图像" class="headerlink" title="重构缺失图像"></a>重构缺失图像</h2><pre><code>将缺失图像分为8*8的原子，纵向合并，L2范式归一化，得到测试信号Y’；
+用OMP算法得到该图像的表示X；
+再用D*X作为对Y’的复原；
+将Y’展开，伸展范围为原范围，得到修复完善的图像。
+</code></pre><h1 id="实验结果及实验分析"><a href="#实验结果及实验分析" class="headerlink" title="实验结果及实验分析"></a>实验结果及实验分析</h1><h2 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h2><pre><code>下面将展示50%、70%、90%损失比例下的恢复效果(30次迭代)。
+</code></pre><p>50% loss </p>
+<p><img src="/images/50_loss.jpg" alt=""></p>
+<p>Reconstruct </p>
+<p><img src="/images/50_rec.jpg" alt=""></p>
+<p>70% loss    </p>
+<p><img src="/images/70_loss.jpg" alt=""><br>Reconstruct </p>
+<p><img src="/images/70_rec.jpg" alt=""></p>
+<p>90% loss    </p>
+<p><img src="/images/90_loss.jpg" alt=""></p>
+<p>Reconstruct     </p>
+<p><img src="/images/90_rec.jpg" alt=""></p>
+<p>直观看来，恢复效果并无显著差异，下面将做进一步分析。</p>
+<h1 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h1><pre><code>记录K-SVD每次迭代的误差。
+记录每副恢复的图像的PSNR值。
+PSNR[5]（峰值信噪比）是一个表示信号最大可能功率和影响它的表示精度的破坏性杂讯功率的比值的工程术语。
+</code></pre><p>本实验中，PSNR值用以下公式计算：</p>
+<p>误差图 </p>
+<p><img src="/images/error.jpg" alt=""></p>
+<p>左图是k-svd迭代5次误差图，右图是迭代30次的。可以看出，5次迭代内，误差迅速降低，但5次以后，误差下降就变慢了，而且误差波动较大。而且图片的损失程度对字典表达的误差影响不太大。</p>
+<p>PSNR </p>
+<p><img src="/images/psnr.jpg" alt=""></p>
+<p>所取的PSNR值为17张测试集图像对应PSNR的均值。可以看出，损失比例的变化对恢复的效果影响不是很明显。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>1.通过复现k-svd算法和omp算法，实现人脸受损图像的恢复，加深了对字典学习的理解。</p>
+<p>2.每组实验只进行了一次，在实验分析中所描述的现象并不具有代表性。<br>选用omp算法进行的稀疏表达，实现的omp是表达中的时间瓶颈，进一步可以尝试batch-omp算法优化时间（如sklearn所实现的omp）。</p>
+<p>3.我是将图片切成8*8的像素块作为一列原子的，所以最后恢复得到的图片能明显看出像素块与像素块的差异，如果将像素块定义地更小，则恢复的图像或许会有更好的视觉效果。</p>
+<h1 id="总代码"><a href="#总代码" class="headerlink" title="总代码"></a>总代码</h1><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1>
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2018/12/18/k-svd实现人脸缺失像素补全/" data-toggle="tooltip" data-placement="top"
-                           title="k-svd实现人脸缺失像素补全">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2018/09/06/No-2-Add-Two-Numbers/" data-toggle="tooltip" data-placement="top"
-                           title="leetcode No.2 Add Two Numbers">Next Post &rarr;</a>
+                        <a href="/2018/09/06/No-18-4sum/" data-toggle="tooltip" data-placement="top"
+                           title="leetcode No.18 4sum">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -233,7 +276,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#640-ms"><span class="toc-text">640 ms</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法描述"><span class="toc-text">算法描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OMP"><span class="toc-text">OMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#K-SVD"><span class="toc-text">K-SVD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ImageReconstruct："><span class="toc-text">ImageReconstruct：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实验数据处理"><span class="toc-text">实验数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-对训练集的预处理"><span class="toc-text">1.对训练集的预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-对测试集的预处理"><span class="toc-text">2.对测试集的预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重构缺失图像"><span class="toc-text">重构缺失图像</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实验结果及实验分析"><span class="toc-text">实验结果及实验分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结果展示"><span class="toc-text">结果展示</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实验分析"><span class="toc-text">实验分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总代码"><span class="toc-text">总代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             </div>
         </div>
@@ -255,11 +298,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#leetcode"
-                           title="leetcode">leetcode</a>
-                        
-                        <a class="tag" href="/tags/#python"
-                           title="python">python</a>
+                        <a class="tag" href="/tags/#表达学习"
+                           title="表达学习">表达学习</a>
                         
                     </div>
                 </section>
