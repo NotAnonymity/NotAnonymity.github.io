@@ -1,4 +1,4 @@
----
+<!-- ---
 title: Reading List
 subtitle: a list of books I read
 layout: "page"
@@ -18,4 +18,4 @@ order: 3
 9. Karl Marx: *Capital*
 10. James Woodforde: *The Diary of A Country Parson*
 
-source: [The Guardian](https://www.theguardian.com/books/booksblog/2011/jan/04/best-boring-books)
+source: [The Guardian](https://www.theguardian.com/books/booksblog/2011/jan/04/best-boring-books) -->
