@@ -5,6 +5,8 @@
 
 <!-- Nav -->
 <nav id="nav">
+  <link type = "text-align:left" href='/feed.xml' rel='alternate'>RSS</link>
+ 
   <ul>
     {%- assign _pages = site.html_pages | where_exp: "page", "page.hide != true" -%}
     {%- unless _pages == null -%}
