@@ -54,6 +54,7 @@ pinterest_url:
 slack_url:
 dribbble_url:
 douban_url: "https://www.douban.com/people/63457418/"
+rss: "/feed.xml"
 
 # Google Analytics Tracking ID goes here:
 google_analytics:
